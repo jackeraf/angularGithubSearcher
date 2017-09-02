@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GitHubService } from "../services/github.service"
 import "rxjs/Rx"
 
@@ -7,27 +7,29 @@ import "rxjs/Rx"
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent  {
 
-  username: string
-	user: string
+	user: any
   repos: any
-  constructor(private gitSrvc: GitHubService) {
+  username: string
 
+  constructor(private gitSrvc: GitHubService) {
+    this.user = false
   }
 
-  ngOnInit() {
-    this.gitSrvc.changeUser(this.username)
-  	this.gitSrvc.getUser().subscribe(
-      user => {
-        this.user = user
-      }
-    )
-    this.gitSrvc.getRepos().subscribe(
-  		repos => {
-  			this.repos = repos
-  		}
-  	)
+  
+  searchUser(){
+    this.gitSrvc.updateUser(this.username)
+    this.gitSrvc.getUser().subscribe(
+          user => {
+            this.user = user
+          }
+        )
+        this.gitSrvc.getRepos().subscribe(
+          repos => {
+            this.repos = repos
+          }
+        )    
   }
 
 }
